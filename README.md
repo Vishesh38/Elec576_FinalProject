@@ -1,1 +1,1 @@
-# Elec576_FinalProject
+# BeatCaptcha (Elec576 Final Project)
