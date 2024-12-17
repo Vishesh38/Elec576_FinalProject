@@ -116,7 +116,7 @@ def evaluation(trajectory_data):
         
         # Average angle deviation (larger angles = more jerky movements)
         avg_angle_start = np.mean(angles[0:5]) if angles else 0
-        avg_angle_end = np.mean(angles[-6:]) if angles else 0
+        avg_angle_end = np.mean(angles[-5:]) if angles else 0
         return avg_angle_start, avg_angle_end
 
     def calculate_position_linear_fit(mouse_data):
@@ -138,7 +138,7 @@ def evaluation(trajectory_data):
         linear_fit = calculate_position_linear_fit(mouse_data)
         
         # Feature vector
-        features = [np.mean(np.array(distances[0:5])-np.array(distances[-5:])), np.mean(np.array(speeds[0:5])-np.array(speeds[-5:])), np.mean(np.array(accelerations_distance[0:5])-np.array(accelerations_distance[-5:])), timing_consistency, smoothness, np.abs(angle_start - angle_end), linear_fit]
+        features = [np.mean(np.array(distances[0:5])+np.array(distances[-5:])), np.mean(np.array(speeds[0:5])+np.array(speeds[-5:])), np.mean(np.abs(np.array(accelerations_distance[0:5]))+np.abs(np.array(accelerations_distance[-5:]))), timing_consistency, smoothness, np.abs(angle_start - angle_end), linear_fit]
         
         #Truth matrix
         truth_matrix = [False,False,False,False,False,False,False]
@@ -167,7 +167,7 @@ def evaluation(trajectory_data):
             return([False,truth_matrix])
 
     predictions = []
-    visualize = np.zeros(7)
+    #visualize = np.zeros(7)
     for i in trajectory_data:
         if analyze_mouse_data(i)[0] == True:
             predictions.append(True)
